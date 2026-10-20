@@ -510,7 +510,7 @@ class GVS(SoftRobot):
         """
         return jnp.asarray(self.segment_lengths)
 
-    def cross_section_geometry(self, q: Array, s: Array) -> tuple[Array, Array]:
+    def cross_section_geometry(self, q: Array, s: Array) -> tuple[Array, Array, None]:
         """Evaluate cross-section geometry at a backbone coordinate.
 
         Args:
@@ -520,7 +520,7 @@ class GVS(SoftRobot):
             s: Scalar global backbone coordinate.
 
         Returns:
-            A tuple ``(geometry, dimensions)``. ``geometry`` is the integer
+            A tuple ``(geometry, dimensions, None)`` for a solid section. ``geometry`` is the integer
             :class:`CrossSectionGeometry` tag. ``dimensions`` contains radius
             for a circular section, height and width for a rectangle, or
             semi-major and semi-minor radii for an ellipse.
@@ -553,7 +553,7 @@ class GVS(SoftRobot):
             return jnp.array([a_val, b_val])
 
         dims = lax.switch(tag, [circular, rectangular, elliptical], None)
-        return tag.astype(jnp.int32), dims
+        return tag.astype(jnp.int32), dims, None
 
     def _build_segment_i(
         self,
