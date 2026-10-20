@@ -14,6 +14,10 @@ Describe the delta from the last release, not intermediate development changes.
 
 ### Added
 
+- Native Warp GVS kernels for heterogeneous worlds, with FP64 dynamics,
+  kinematics and actuation across different joints and strain bases; see
+  [PR #227](https://github.com/tud-phi/soromox/pull/227).
+
 - GVS-based `Helicoidal` models for trimmed-helicoid robots, with analytic
   sectional mechanics, per-strain damping, helix-domain material inputs,
   strand-derived inertia, a simulation example, and a dedicated Viser renderer.
@@ -37,6 +41,12 @@ Describe the delta from the last release, not intermediate development changes.
 
 ### Breaking changes
 
+- Renamed direct GVS Warp kernels and launchers to `homogeneous_*_kernel`
+  and `launch_homogeneous_*`; homogeneous kernels take the shared `*Data`
+  structs, while host launchers retain array arguments. Integration callers
+  must use the explicit names and updated kernel signatures.
+  See the [batch layout contracts](../api/execution/warp/gvs.md#batch-layouts-and-naming)
+  and [PR #227](https://github.com/tud-phi/soromox/pull/227).
 - `SoftRobot.cross_section_geometry(q, s)` now returns
   `(geometry, outer_dimensions, inner_dimensions)` instead of a pair.
   Update custom implementations to return `None` as the third value for solid
